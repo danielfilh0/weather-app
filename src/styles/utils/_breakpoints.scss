@@ -1,0 +1,18 @@
+@mixin breakpoint($range) {
+    $phone: 600px;
+    $tablet-landscape: 900px;
+    $desktop: 1200px;
+    $desktop-big: 1800px;
+  
+    @if $range == phone {
+      @media (min-width: $phone) { @content; }
+    } @else if $range == tablet-landscape {
+      @media (min-width: $tablet-landscape) { @content; }
+    } @else if $range == desktop {
+      @media (min-width: $desktop) { @content; }
+    } @else if $range == desktop-big {
+      @media (min-width: $desktop-big) { @content; }
+    } @else {
+        @media (min-width: $range) { @content; }
+    }
+  }
