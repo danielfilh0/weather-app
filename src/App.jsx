@@ -4,6 +4,7 @@ import Card from "./components/Card";
 import DataCurrent from "./components/DataCurrent";
 import Img from "./components/Img";
 import Loading from "./components/Loading";
+import SmallCard from "./components/SmallCard";
 import Temperature from "./components/Temperature";
 
 const App = () => {
@@ -12,19 +13,53 @@ const App = () => {
     let [searchList, setSearchList] = React.useState([]);
     let [loading, setLoading] = React.useState(false);
     let [region, setRegion] = React.useState("Helsinki");
-    let [data, setData] = React.useState([
-        {
-            time: 'undefined',
-            the_temp: 15,
-            weather_state_abbr: "s",
-            weather_state_name: "Showers",
-        },
-    ]);
+    let [data, setData] = React.useState(
+        [
+            {
+                time: "undefined",
+                the_temp: 15,
+                weather_state_abbr: "s",
+                weather_state_name: "Showers",
+            },
+            {
+                min_temp: 11,
+                max_temp: 16,
+                weather_state_abbr: "c",
+                applicable_date: 'in 1 days'
+            },
+            {
+                min_temp: 11,
+                max_temp: 16,
+                weather_state_abbr: "lc",
+                applicable_date: 'in 2 days'
+            },
+            {
+                min_temp: 11,
+                max_temp: 16,
+                weather_state_abbr: "hc",
+                applicable_date: 'in 3 days'
+            },
+            {
+                min_temp: 11,
+                max_temp: 16,
+                weather_state_abbr: "lr",
+                applicable_date: 'in 4 days'
+            },
+            {
+                min_temp: 11,
+                max_temp: 16,
+                weather_state_abbr: "t",
+                applicable_date: 'in 5 days'
+            },
+        ],
+    );
 
     function addNewItem(value) {
         let array = Array.from(searchList);
         array.unshift(value.toLowerCase());
-        let newArray = array.filter((item, index) => array.indexOf(item) === index);
+        let newArray = array.filter(
+            (item, index) => array.indexOf(item) === index
+        );
         setSearchList(newArray.slice(0, 6));
     }
 
@@ -48,6 +83,7 @@ const App = () => {
         const data = await getData(woeid);
         setLoading(false);
         setData(data);
+        console.log(data[0].applicable_date);
     }
 
     async function handleSubmitList(event) {
@@ -124,7 +160,9 @@ const App = () => {
                         </form>
                         <ul>
                             {searchList.map((item, index) => (
-                                <li key={index} onClick={handleSubmitList}>{item}</li>
+                                <li key={index} onClick={handleSubmitList}>
+                                    {item}
+                                </li>
                             ))}
                         </ul>
                     </div>
@@ -136,18 +174,15 @@ const App = () => {
                     <button>ºF</button>
                 </section>
                 <section className="main__next-days">
-                    <Card>
-                        <p>Tomorrow</p>
-                        <img
-                            className="info__image"
-                            src="https://www.metaweather.com/static/img/weather/s.svg"
-                            alt=""
-                        />
-                        <div>
-                            <span>16ºC</span>
-                            <span>11ºC</span>
-                        </div>
-                    </Card>
+                    <SmallCard loading={loading} text="Tomorrow" srcImg={data[1].weather_state_abbr} altImg={data[1].weather_state_name} maxTemp={data[1].max_temp} minTemp={data[1].min_temp} />
+
+                    <SmallCard loading={loading} text={data[2].applicable_date} srcImg={data[2].weather_state_abbr} altImg={data[2].weather_state_name} maxTemp={data[2].max_temp} minTemp={data[2].min_temp} />
+
+                    <SmallCard loading={loading}text={data[3].applicable_date} srcImg={data[3].weather_state_abbr} altImg={data[3].weather_state_name} maxTemp={data[3].max_temp} minTemp={data[3].min_temp} />
+
+                    <SmallCard loading={loading} text={data[4].applicable_date} srcImg={data[4].weather_state_abbr} altImg={data[4].weather_state_name} maxTemp={data[4].max_temp} minTemp={data[4].min_temp} />
+
+                    <SmallCard loading={loading} text={data[5].applicable_date} srcImg={data[5].weather_state_abbr} altImg={data[5].weather_state_name} maxTemp={data[5].max_temp} minTemp={data[5].min_temp} />
                 </section>
                 <section className="main__highlights">
                     <h1>Today's Highlights</h1>

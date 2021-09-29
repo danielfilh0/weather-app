@@ -304,10 +304,10 @@
     }
 
     .main {
+        width: 100%;
         height: auto;
         background-color: $color-secondary;
         padding: 2rem 3rem;
-
 
         @include breakpoint(tablet-landscape) {
             height: 100%;
@@ -360,14 +360,16 @@
         }
 
         &__next-days {
+            width: 100%;
             padding-top: 4rem;
             display: grid;
             grid-template-columns: 120px;
+            grid-gap: 1.5rem;
             justify-content: center;
             
             @include breakpoint(phone) {
                 grid-template-columns: repeat(5, 120px);
-                justify-content: space-between;
+                justify-content: center;
             }
         }
 
@@ -380,6 +382,7 @@
             }
 
             .cards {
+                width: 100%;
                 padding-top: 2rem;
                 display: grid;
                 grid-template-columns: 328px;
