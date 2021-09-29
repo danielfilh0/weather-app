@@ -21,7 +21,7 @@
             width: 3.5rem;
         }
 
-        div {
+        &__temp {
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -41,12 +41,112 @@
 
 .main__highlights {
     .card {
-        height: 12.5rem;
+        padding: 2rem 0;
         background-color: $color-primary;
 
         h2 {
+            padding: 1rem 0;
             font-size: 4rem;
             font-weight: 700;
+
+            &::after {
+                content: '';
+                font-weight: 500;
+                font-size: 2.2rem;
+            }
+        }
+
+        p {
+            font-weight: 500;
+        }
+
+        &.wind-status {
+            h2 {
+                &::after {
+                    content: 'mph';
+                }
+            }
+
+            .wind-status__direction {
+                display: flex;
+                align-items: center;
+
+                i {
+                    margin-right: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 2rem;
+                    height: 2rem;
+                    background-color: $color-gray-dark;
+                    font-size: 0.8rem;
+                    border-radius: 50%;
+                    color: $light;
+                }
+            }
+        }
+
+        &.humidity {
+            h2 {
+                &::after {
+                    content: '%';
+                }
+            }
+
+            .humidity__rate {
+                width: 80%;
+
+                span {
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    color: $color-text-dark;
+                }
+
+                > span {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                .numbers {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .filler {
+                    margin: 0.3rem 0;
+                    width: 100%;
+                    height: 8px;
+                    display: block;
+                    background-color: $color-text-light;
+                    border-radius: 5rem;
+                    position: relative;
+
+                    .fill {
+                        position: absolute;
+                        left: 0;
+                        width: 20%;
+                        height: 100%;
+                        background-color: $color-yellow;
+                        border-radius: 5rem;
+                    }
+                }
+            }
+        }
+
+        &.visibility {
+            h2 {
+                &::after {
+                    content: 'miles';
+                }
+            }
+        }
+
+        &.air-pressure {
+            h2 {
+                &::after {
+                    content: 'mb'
+                }
+            }
         }
     }
 }

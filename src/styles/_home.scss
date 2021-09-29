@@ -240,6 +240,10 @@
                     outline: none;
 
                     @include breakpoint(phone) {
+                        width: 70%;
+                    }
+
+                    @include breakpoint(desktop) {
                         width: 16.75rem;
                     }
                 }
@@ -254,6 +258,14 @@
                     outline: none;
                     cursor: pointer;
                     transition: 0.2s;
+
+                    @include breakpoint(phone) {
+                        padding: 0 3rem;
+                    }
+
+                    @include breakpoint(desktop) {
+                        padding: 0 1rem;
+                    }
 
                     &:hover {
                         filter: brightness(1.2);
@@ -315,7 +327,7 @@
         }
 
         @include breakpoint(desktop) {
-            padding: 2rem 8rem;
+            padding: 2rem 8rem 0 8rem;
         }
 
         &__header {
@@ -375,10 +387,17 @@
 
         &__highlights {
             padding-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             h1 {
                 font-size: 1.5rem;
                 font-weight: 700;
+
+                @include breakpoint(phone) {
+                    width: 680px;
+                }
             }
 
             .cards {
@@ -386,11 +405,11 @@
                 padding-top: 2rem;
                 display: grid;
                 grid-template-columns: 328px;
+                grid-gap: 2rem;
                 justify-content: center;
                 
                 @include breakpoint(phone) {
                     grid-template-columns: repeat(2, 328px);
-                    justify-content: space-between;
                 }
             }
         }

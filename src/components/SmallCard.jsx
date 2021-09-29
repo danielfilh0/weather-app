@@ -5,13 +5,13 @@ import Loading from "./Loading";
 const SmallCard = ({ loading, text, srcImg, altImg, maxTemp, minTemp }) => {
     if (loading) {
         return (
-            <div className="card" style={{display: 'flex', justifyContent: 'center'}}>
-                <p>Loading...</p>
+            <div className="card small-card" style={{display: 'flex', justifyContent: 'center'}}>
+                <Loading />
             </div>
         );
     } else {
         return (
-            <div className="card">
+            <div className="card small-card">
                 {text === "Tomorrow" ? (
                     <p>Tomorrow</p>
                 ) : (
@@ -20,7 +20,7 @@ const SmallCard = ({ loading, text, srcImg, altImg, maxTemp, minTemp }) => {
                     </p>
                 )}
                 <Img className="card__image" src={srcImg} alt={altImg} />
-                <div>
+                <div className="card__temp">
                     <span>{Math.floor(maxTemp)}</span>
                     <span>{Math.floor(minTemp)}</span>
                 </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import api from "./api";
-import Card from "./components/Card";
 import DataCurrent from "./components/DataCurrent";
 import Img from "./components/Img";
 import Loading from "./components/Loading";
+import LargeCard from "./components/LargeCard";
 import SmallCard from "./components/SmallCard";
 import Temperature from "./components/Temperature";
 
@@ -20,6 +20,12 @@ const App = () => {
                 the_temp: 15,
                 weather_state_abbr: "s",
                 weather_state_name: "Showers",
+                wind_speed: 7,
+                wind_direction: 240,
+                wind_direction_compass: "WSW",
+                humidity: 84,
+                visibility: 12.4,
+                air_pressure: 998,
             },
             {
                 min_temp: 11,
@@ -83,7 +89,7 @@ const App = () => {
         const data = await getData(woeid);
         setLoading(false);
         setData(data);
-        console.log(data[0].applicable_date);
+        console.log(data[0]);
     }
 
     async function handleSubmitList(event) {
@@ -178,7 +184,7 @@ const App = () => {
 
                     <SmallCard loading={loading} text={data[2].applicable_date} srcImg={data[2].weather_state_abbr} altImg={data[2].weather_state_name} maxTemp={data[2].max_temp} minTemp={data[2].min_temp} />
 
-                    <SmallCard loading={loading}text={data[3].applicable_date} srcImg={data[3].weather_state_abbr} altImg={data[3].weather_state_name} maxTemp={data[3].max_temp} minTemp={data[3].min_temp} />
+                    <SmallCard loading={loading} text={data[3].applicable_date} srcImg={data[3].weather_state_abbr} altImg={data[3].weather_state_name} maxTemp={data[3].max_temp} minTemp={data[3].min_temp} />
 
                     <SmallCard loading={loading} text={data[4].applicable_date} srcImg={data[4].weather_state_abbr} altImg={data[4].weather_state_name} maxTemp={data[4].max_temp} minTemp={data[4].min_temp} />
 
@@ -187,14 +193,40 @@ const App = () => {
                 <section className="main__highlights">
                     <h1>Today's Highlights</h1>
                     <div className="cards">
-                        <Card>
+                        <LargeCard loading={loading} className="wind-status">
                             <p>Wind status</p>
-                            <h2>7 mph</h2>
-                            <div className="direction">
-                                <i className="fas fa-location-arrow"></i>
-                                <span>WSW</span>
+                            <h2>{Math.floor(data[0].wind_speed)}</h2>
+                            <div className="wind-status__direction">
+                                <i className="fas fa-location-arrow" style={{transform: `rotate(${Math.floor(data[0].wind_direction) - 45}deg)`}}></i>
+                                <span>{data[0].wind_direction_compass}</span>
                             </div>
-                        </Card>
+                        </LargeCard>
+
+                        <LargeCard loading={loading} className="humidity">
+                            <p>Humidity</p>
+                            <h2>{data[0].humidity}</h2>
+                            <div className="humidity__rate">
+                                <div className="numbers">
+                                    <span>0</span>
+                                    <span>50</span>
+                                    <span>100</span>
+                                </div>
+                                <div className="filler">
+                                    <div className="fill" style={{width: `${data[0].humidity}%`}}></div>
+                                </div>
+                                <span>%</span>
+                            </div>
+                        </LargeCard>
+
+                        <LargeCard loading={loading} className="visibility">
+                            <p>Visibility</p>
+                            <h2>{data[0].visibility.toFixed(1)}</h2>
+                        </LargeCard>
+
+                        <LargeCard loading={loading} className="air-pressure">
+                            <p>Air Pressure</p>
+                            <h2>{Math.floor(data[0].air_pressure)}</h2>
+                        </LargeCard>
                     </div>
                 </section>
             </main>
