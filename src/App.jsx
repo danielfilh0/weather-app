@@ -288,6 +288,9 @@ const App = () => {
                         </LargeCard>
                     </div>
                 </section>
+                <footer>
+                    <p>created by <a href="https://github.com/danielfilh0" rel="noreferrer" target="_blank" title="Daniel Filho">danielfilh0</a> - devChallenges.io</p>
+                </footer>
             </main>
         </div>
     );

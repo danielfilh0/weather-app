@@ -324,6 +324,7 @@
         height: auto;
         background-color: $color-secondary;
         padding: 2rem 3rem;
+        position: relative;
 
         @include breakpoint(tablet-landscape) {
             height: 100%;
@@ -416,6 +417,24 @@
                 
                 @include breakpoint(phone) {
                     grid-template-columns: repeat(2, 328px);
+                }
+            }
+        }
+
+        footer {
+            margin-top: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            p {
+                font-weight: 500;
+                font-size: 0.875rem;
+                color: $color-text-dark;
+
+                a {
+                    font-weight: 700;
+                    color: inherit;
                 }
             }
         }
