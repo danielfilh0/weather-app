@@ -12,53 +12,52 @@ const App = () => {
     let [search, setSearch] = React.useState("");
     let [searchList, setSearchList] = React.useState([]);
     let [loading, setLoading] = React.useState(false);
+    let [error, setError] = React.useState(false);
     let [region, setRegion] = React.useState("Helsinki");
-    let [data, setData] = React.useState(
-        [
-            {
-                time: "undefined",
-                the_temp: 15,
-                weather_state_abbr: "s",
-                weather_state_name: "Showers",
-                wind_speed: 7,
-                wind_direction: 240,
-                wind_direction_compass: "WSW",
-                humidity: 84,
-                visibility: 12.4,
-                air_pressure: 998,
-            },
-            {
-                min_temp: 11,
-                max_temp: 16,
-                weather_state_abbr: "c",
-                applicable_date: 'in 1 days'
-            },
-            {
-                min_temp: 11,
-                max_temp: 16,
-                weather_state_abbr: "lc",
-                applicable_date: 'in 2 days'
-            },
-            {
-                min_temp: 11,
-                max_temp: 16,
-                weather_state_abbr: "hc",
-                applicable_date: 'in 3 days'
-            },
-            {
-                min_temp: 11,
-                max_temp: 16,
-                weather_state_abbr: "lr",
-                applicable_date: 'in 4 days'
-            },
-            {
-                min_temp: 11,
-                max_temp: 16,
-                weather_state_abbr: "t",
-                applicable_date: 'in 5 days'
-            },
-        ],
-    );
+    let [data, setData] = React.useState([
+        {
+            time: "undefined",
+            the_temp: 15,
+            weather_state_abbr: "s",
+            weather_state_name: "Showers",
+            wind_speed: 7,
+            wind_direction: 240,
+            wind_direction_compass: "WSW",
+            humidity: 84,
+            visibility: 12.4,
+            air_pressure: 998,
+        },
+        {
+            min_temp: 11,
+            max_temp: 16,
+            weather_state_abbr: "c",
+            applicable_date: "in 1 days",
+        },
+        {
+            min_temp: 11,
+            max_temp: 16,
+            weather_state_abbr: "lc",
+            applicable_date: "in 2 days",
+        },
+        {
+            min_temp: 11,
+            max_temp: 16,
+            weather_state_abbr: "hc",
+            applicable_date: "in 3 days",
+        },
+        {
+            min_temp: 11,
+            max_temp: 16,
+            weather_state_abbr: "lr",
+            applicable_date: "in 4 days",
+        },
+        {
+            min_temp: 11,
+            max_temp: 16,
+            weather_state_abbr: "t",
+            applicable_date: "in 5 days",
+        },
+    ]);
 
     function addNewItem(value) {
         let array = Array.from(searchList);
@@ -82,24 +81,41 @@ const App = () => {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        addNewItem(search);
-        setActiveSearch(false);
         setLoading(true);
-        const woeid = await getWoeid(search);
-        const data = await getData(woeid);
-        setLoading(false);
-        setData(data);
-        console.log(data[0]);
+        try {
+            setActiveSearch(false);
+            const woeid = await getWoeid(search);
+            const data = await getData(woeid);
+            setError(false);
+            addNewItem(search);
+            setData(data);
+        } catch (error) {
+            setLoading(false);
+            setActiveSearch(true);
+            setError(true);
+        } finally {
+            setLoading(false);
+            setSearch('');
+        }
     }
 
     async function handleSubmitList(event) {
-        addNewItem(event.target.innerText);
-        setActiveSearch(false);
         setLoading(true);
-        const woeid = await getWoeid(event.target.innerText);
-        const data = await getData(woeid);
-        setLoading(false);
-        setData(data);
+        try {
+            setActiveSearch(false);
+            const woeid = await getWoeid(event.target.innerText);
+            const data = await getData(woeid);
+            addNewItem(event.target.innerText);
+            setError(false);
+            setData(data);
+        } catch(error) {
+            setActiveSearch(true);
+            setLoading(false);
+            setError(true);
+        } finally {
+            setLoading(false);
+            setSearch('');
+        }
     }
 
     return (
@@ -161,9 +177,11 @@ const App = () => {
                                     setSearch(event.target.value)
                                 }
                                 placeholder="search location"
+                                className={error ? 'error' : null}
                             />
                             <button type="submit">Search</button>
                         </form>
+                        {error ? <p className="error">Location not found</p> : null}
                         <ul>
                             {searchList.map((item, index) => (
                                 <li key={index} onClick={handleSubmitList}>
@@ -180,15 +198,50 @@ const App = () => {
                     <button>ºF</button>
                 </section>
                 <section className="main__next-days">
-                    <SmallCard loading={loading} text="Tomorrow" srcImg={data[1].weather_state_abbr} altImg={data[1].weather_state_name} maxTemp={data[1].max_temp} minTemp={data[1].min_temp} />
+                    <SmallCard
+                        loading={loading}
+                        text="Tomorrow"
+                        srcImg={data[1].weather_state_abbr}
+                        altImg={data[1].weather_state_name}
+                        maxTemp={data[1].max_temp}
+                        minTemp={data[1].min_temp}
+                    />
 
-                    <SmallCard loading={loading} text={data[2].applicable_date} srcImg={data[2].weather_state_abbr} altImg={data[2].weather_state_name} maxTemp={data[2].max_temp} minTemp={data[2].min_temp} />
+                    <SmallCard
+                        loading={loading}
+                        text={data[2].applicable_date}
+                        srcImg={data[2].weather_state_abbr}
+                        altImg={data[2].weather_state_name}
+                        maxTemp={data[2].max_temp}
+                        minTemp={data[2].min_temp}
+                    />
 
-                    <SmallCard loading={loading} text={data[3].applicable_date} srcImg={data[3].weather_state_abbr} altImg={data[3].weather_state_name} maxTemp={data[3].max_temp} minTemp={data[3].min_temp} />
+                    <SmallCard
+                        loading={loading}
+                        text={data[3].applicable_date}
+                        srcImg={data[3].weather_state_abbr}
+                        altImg={data[3].weather_state_name}
+                        maxTemp={data[3].max_temp}
+                        minTemp={data[3].min_temp}
+                    />
 
-                    <SmallCard loading={loading} text={data[4].applicable_date} srcImg={data[4].weather_state_abbr} altImg={data[4].weather_state_name} maxTemp={data[4].max_temp} minTemp={data[4].min_temp} />
+                    <SmallCard
+                        loading={loading}
+                        text={data[4].applicable_date}
+                        srcImg={data[4].weather_state_abbr}
+                        altImg={data[4].weather_state_name}
+                        maxTemp={data[4].max_temp}
+                        minTemp={data[4].min_temp}
+                    />
 
-                    <SmallCard loading={loading} text={data[5].applicable_date} srcImg={data[5].weather_state_abbr} altImg={data[5].weather_state_name} maxTemp={data[5].max_temp} minTemp={data[5].min_temp} />
+                    <SmallCard
+                        loading={loading}
+                        text={data[5].applicable_date}
+                        srcImg={data[5].weather_state_abbr}
+                        altImg={data[5].weather_state_name}
+                        maxTemp={data[5].max_temp}
+                        minTemp={data[5].min_temp}
+                    />
                 </section>
                 <section className="main__highlights">
                     <h1>Today's Highlights</h1>
@@ -197,7 +250,15 @@ const App = () => {
                             <p>Wind status</p>
                             <h2>{Math.floor(data[0].wind_speed)}</h2>
                             <div className="wind-status__direction">
-                                <i className="fas fa-location-arrow" style={{transform: `rotate(${Math.floor(data[0].wind_direction) - 45}deg)`}}></i>
+                                <i
+                                    className="fas fa-location-arrow"
+                                    style={{
+                                        transform: `rotate(${
+                                            Math.floor(data[0].wind_direction) -
+                                            45
+                                        }deg)`,
+                                    }}
+                                ></i>
                                 <span>{data[0].wind_direction_compass}</span>
                             </div>
                         </LargeCard>
@@ -212,7 +273,12 @@ const App = () => {
                                     <span>100</span>
                                 </div>
                                 <div className="filler">
-                                    <div className="fill" style={{width: `${data[0].humidity}%`}}></div>
+                                    <div
+                                        className="fill"
+                                        style={{
+                                            width: `${data[0].humidity}%`,
+                                        }}
+                                    ></div>
                                 </div>
                                 <span>%</span>
                             </div>

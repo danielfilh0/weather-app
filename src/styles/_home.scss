@@ -246,6 +246,10 @@
                     @include breakpoint(desktop) {
                         width: 16.75rem;
                     }
+
+                    &.error {
+                        border-color: $color-error;
+                    }
                 }
 
                 button {
@@ -413,5 +417,12 @@
                 }
             }
         }
+    }
+
+    p.error {
+        font-weight: 700;
+        padding: 1.5rem 0.5rem;
+        color: $color-error;
+        text-align: center;
     }
 }
