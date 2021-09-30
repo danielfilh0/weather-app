@@ -130,9 +130,6 @@ const App = () => {
                             >
                                 Search for places
                             </button>
-                            <button className="btn-gps">
-                                <i className="fas fa-compass"></i>
-                            </button>
                         </div>
 
                         {loading ? (
@@ -193,10 +190,6 @@ const App = () => {
                 )}
             </aside>
             <main className="main">
-                <section className="main__header">
-                    <button className="active">ºC</button>
-                    <button>ºF</button>
-                </section>
                 <section className="main__next-days">
                     <SmallCard
                         loading={loading}

@@ -57,7 +57,7 @@
 
             .header {
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 position: relative;
                 z-index: 3;
 
@@ -377,7 +377,6 @@
 
         &__next-days {
             width: 100%;
-            padding-top: 4rem;
             display: grid;
             grid-template-columns: 120px;
             grid-gap: 1.5rem;
