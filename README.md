@@ -11,7 +11,7 @@
       Demo
     </a>
     <span> | </span>
-    <a href="https://{your-url-to-the-solution}">
+    <a href="https://devchallenges.io/solutions/lTI2yOoWgLNEoPZ5sk4G">
       Solution
     </a>
     <span> | </span>
@@ -34,7 +34,7 @@
 
 ## ✅ Overview
 
-<img alt="NextLevelWeek" title="#NextLevelWeek" src="./src/assets/weather-app.gif" />
+<img alt="Weather App" title="Weather App" src="./src/assets/weather-app.gif" />
 
 ### 👉 Built With
 
